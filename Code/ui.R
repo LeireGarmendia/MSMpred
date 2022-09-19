@@ -8,7 +8,7 @@ library(shinyjs)
 library(reactable)
 library(DiagrammeR)
 library(plotly)
-library(DT)
+library(DT) 
 
 #Long texts to show in the app
 source('ui_text.R')
