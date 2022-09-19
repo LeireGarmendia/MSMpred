@@ -1,7 +1,7 @@
 # State the type of covariates depending on the number of unique values
 covar_type <- function(covar,max_unique=5){
   cond1 <- is.numeric(covar)
-  cond2 <- length(unique(covar))>max_unique
+  cond2 <- length(unique(covar))>max_unique 
   
   if(cond1 & cond2){res <- "numeric"}else{res <- "factor"}
 }
