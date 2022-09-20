@@ -19,7 +19,7 @@ source('functions.R')
 source('parameters.R')
 
 
-divine_data <- read.table('DIVINE_app.csv', sep = ",", 
+divine_data <- read.table('DIVINE_github.csv', sep = ",", 
                           header = TRUE, stringsAsFactors = TRUE)
 
 divine_data$safi <- round(divine_data$safi,3)
