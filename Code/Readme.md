@@ -9,7 +9,7 @@ Note that the app is optimized for Google Chrome, and some features may be limit
 In this code folder you can find several R files with different goals:
   - functions: in this file all the needed functions are defined.
   - parameters: different parameters are initialized.
-  - server: 
+  - server: the instructions that the computer needs to build the app.
   - tab_server_data: the operations related with the data tab are defined.
   - tab_server_eda: the operations related with the exploring the data tab are defined.
   - tab_server_fittedmodel: the operations related with the model fitting are defined.
