@@ -1,7 +1,10 @@
 # MSMpred
 Shiny R code for multistate web-app MSMpred
 
-MSMpred is a shiny app with two main goals: 1) to fit a MSM from specific data; 2) to predict the clinical evolution for a given individual based on a previously fitted MSM. The user can upload a new dataset, provided that it has the required format explained in the help page of the app.
+[MSMpred](https://www.grbio.eu/pubs/MSMpred/) is a shiny app with two main goals: 
+  1) To fit a MSM from specific data.
+  2) To predict the clinical evolution for a given individual based on a previously fitted MSM. 
+The user can upload a new dataset, provided that it has the required format explained in the help page of the app.
 
 As MSMpred is mainly designed for clinicians or researchers with little knowledge about MSMs or statisticians that want to analyse data in a quick and visual way, we have tried to make it very easy to use, to implement all the statistical part in an intuitive way and to include interpretations for the different outputs. 
 
