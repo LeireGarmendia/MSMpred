@@ -100,7 +100,8 @@ observeEvent(input$filein,{
 #-------------
 output$data <- DT::renderDataTable({
   if(is.null(input$filein)){
-    Rvalues$data[1:20,]
+    #Ordenamos los datos segun la ola y enseñamos los 20 ultimos pacientes (ola 5)
+    Rvalues$data[order(Rvalues$data$wave)[978:997], ]
   }else{
     Rvalues$data
   }
