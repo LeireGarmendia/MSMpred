@@ -18,9 +18,13 @@ library(summarytools) # tabla descriptiva
 source('functions.R')
 source('parameters.R')
 
-
-divine_data <- read.table('DIVINE_github.csv', sep = ",", 
-                          header = TRUE, stringsAsFactors = TRUE)
+if(file.exists('DIVINE_github.csv')){
+  divine_data <- read.table('DIVINE_github.csv', sep = ",", 
+                            header = TRUE, stringsAsFactors = TRUE)
+}else{
+  divine_data <- read.table('DIVINE_app.csv', sep = ",", 
+                            header = TRUE, stringsAsFactors = TRUE)
+}
 
 divine_data$safi <- round(divine_data$safi,3)
 divine_data$lympho <- round(divine_data$lympho,5)
