@@ -13,7 +13,7 @@ library(DT)
 #Long texts to show in the app
 source('ui_text.R')
 
-shinyUI(dashboardPage(
+shinyUI(dashboardPage(title= "MSMpred",
   dashboardHeader(title = "MSMpred"),
   dashboardSidebar(
     sidebarMenu(id = "tabs",
