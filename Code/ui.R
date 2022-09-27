@@ -13,7 +13,8 @@ library(DT)
 #Long texts to show in the app
 source('ui_text.R')
 
-shinyUI(dashboardPage(title= "MSMpred",
+shinyUI(dashboardPage(tags$head(includeHTML("google-analytics.html")),
+                      title= "MSMpred",
   dashboardHeader(title = "MSMpred"),
   dashboardSidebar(
     sidebarMenu(id = "tabs",
