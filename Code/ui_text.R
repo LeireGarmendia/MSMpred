@@ -103,8 +103,8 @@ text_format_covariates <- "<ul><li>The variables that are not named as <b>x_time
 text_DIVINE_cohort <- "When the DIVINE cohort is used for confidentiality reasons only the information of 20 patients is shown,
                            although internally all the individuals are used."
 
-text_log_score <- "The logarithmic score is not computed automatically as it takes to much time. 
-                                If wanted this score can be computed clicking on the button."
+text_log_score <- "The predictive performance is not computed automatically as it takes to much time. 
+                                If wanted this performance can be computed clicking on the button."
 
 text_predictions <- "You can predict the clinical evolution for new individuals, using the model previously fitted.
                               This prediction can be done for one or two individuals at the same time, making possible the

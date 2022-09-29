@@ -18,11 +18,11 @@ library(summarytools) # tabla descriptiva
 source('functions.R')
 source('parameters.R')
 
-if(file.exists('DIVINE_github.csv')){
-  divine_data <- read.table('DIVINE_github.csv', sep = ",", 
+if(file.exists('DIVINE_app.csv')){
+  divine_data <- read.table('DIVINE_app.csv', sep = ",", 
                             header = TRUE, stringsAsFactors = TRUE)
 }else{
-  divine_data <- read.table('DIVINE_app.csv', sep = ",", 
+  divine_data <- read.table('DIVINE_github.csv', sep = ",", 
                             header = TRUE, stringsAsFactors = TRUE)
 }
 
@@ -124,7 +124,10 @@ shinyServer(function(input, output, session) {
 
   #Model validation
   source('tab_server_validation.R',local = TRUE)
-
+  
+  #Predictive performance
+  source('tab_server_predictive_performance.R',local = TRUE)
+  
   #Prediction
   source('tab_server_prediction.R',local = TRUE)
 })

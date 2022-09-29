@@ -45,6 +45,8 @@ shinyUI(dashboardPage(title= "MSMpred",
                                      tabName = "forest"),
                          menuSubItem("Validation",
                                      tabName = "validation"),
+                         menuSubItem("Predictive performance",
+                                     tabName = "pred_perf"),
                          menuSubItem("Model comparison",
                                      tabName = "comparison")),
                 
@@ -103,7 +105,8 @@ shinyUI(dashboardPage(title= "MSMpred",
                                   HTML(text_format_states))),
                        column(4, 
                               box(title = "Covariates", status = "warning", width = NULL,
-                                  HTML(text_format_covariates))))),
+                                  HTML(text_format_covariates)))),
+              ),
       
       
       tabItem(tabName = "data",
@@ -246,9 +249,6 @@ shinyUI(dashboardPage(title= "MSMpred",
               fluidRow(column(6,
                               box(title = "Cumulative incidence curves of the absorbing states", status = "warning", width = NULL,
                                   plotlyOutput("cum_inc_absorbing", height = "700px"))))),
-                       # column(6,
-                              # box(title = "Survival curves of the absorbing states", status = "warning", width = NULL,
-                                  # plotlyOutput("surv_absorbing", height = "700px"))))),
       
       
       tabItem(tabName = "nonParam",
@@ -300,36 +300,7 @@ shinyUI(dashboardPage(title= "MSMpred",
                               actionButton(inputId = 'ab111', label = HTML("<b>Help</b>"),
                                            width = '100%',
                                            icon = icon("list-alt"),
-                                           onclick = "window.open('https://www.grbio.eu/pubs/MSMpred/help_app.html#fitted-model', '_blank')"))),
-              fluidRow(column(3, 
-                              actionBttn("LS", "Compute the logarithmic score", style = "float", color = "warning"),
-                              #Progress bar
-                              tags$script("Shiny.addCustomMessageHandler('launch-modal', function(d) {$('#' + d).modal().focus();})"),
-                              tags$script("Shiny.addCustomMessageHandler('remove-modal', function(d) {$('#' + d).modal('hide');})"),
-                              tags$div(
-                                id = "my-modal",
-                                class="modal fade", tabindex="-1", `data-backdrop`="static", `data-keyboard`="false",
-                                tags$div(
-                                  class="modal-dialog",
-                                  tags$div(
-                                    class = "modal-content",
-                                    tags$div(class="modal-header", tags$h4(class="modal-title", "Calculation in progress")),
-                                    tags$div(
-                                      class="modal-body",
-                                      shinyWidgets::progressBar(id = "pb", value = 0, display_pct = TRUE, striped = TRUE)
-                                    ),
-                                    tags$div(class="modal-footer", tags$button(type="button", class="btn btn-default", `data-dismiss`="modal", "Dismiss"))
-                                  )
-                                ))
-                              ,
-                                
-                              
-                              br(),
-                              p(text_log_score,
-                                style = "text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px")),
-                       column(6,
-                              box(title = "Table of logarithmic score:", status = "warning", width = NULL,
-                                  DT::dataTableOutput("logar_score"))))),
+                                           onclick = "window.open('https://www.grbio.eu/pubs/MSMpred/help_app.html#fitted-model', '_blank')")))),
       
       
       tabItem(tabName = "forest",
@@ -388,6 +359,43 @@ shinyUI(dashboardPage(title= "MSMpred",
                                                                width = '100%',
                                                                icon = icon("list-alt"),
                                                                onclick = "window.open('https://www.grbio.eu/pubs/MSMpred/help_app.html#validation', '_blank')")))))),
+      
+      tabItem(tabName = "pred_perf", 
+              fluidRow(column(3, 
+                              actionBttn("LS", "Predictive performance", style = "float", color = "warning"),
+                              #Progress bar
+                              tags$script("Shiny.addCustomMessageHandler('launch-modal', function(d) {$('#' + d).modal().focus();})"),
+                              tags$script("Shiny.addCustomMessageHandler('remove-modal', function(d) {$('#' + d).modal('hide');})"),
+                              tags$div(
+                                id = "my-modal",
+                                class="modal fade", tabindex="-1", `data-backdrop`="static", `data-keyboard`="false",
+                                tags$div(
+                                  class="modal-dialog",
+                                  tags$div(
+                                    class = "modal-content",
+                                    tags$div(class="modal-header", tags$h4(class="modal-title", "Calculation in progress")),
+                                    tags$div(
+                                      class="modal-body",
+                                      shinyWidgets::progressBar(id = "pb", value = 0, display_pct = TRUE, striped = TRUE)
+                                    ),
+                                    tags$div(class="modal-footer", tags$button(type="button", class="btn btn-default", `data-dismiss`="modal", "Dismiss"))
+                                  )
+                                ))
+                              ,
+                              
+                              
+                              br(),
+                              p(text_log_score,
+                                style = "text-align:justify;color:black;background-color:lavender;padding:15px;border-radius:10px")),
+                       column(6,
+                              box(title = "Table of logarithmic score:", status = "warning", width = NULL,
+                                  DT::dataTableOutput("logar_score")),
+                              box(title = "Confussion matrix:", status = "warning", width = NULL,
+                                  DT::dataTableOutput("cont_tab"),
+                                  plotlyOutput("conf_barplot", height = "700px"))))),
+      
+      
+      
       
       
       tabItem(tabName = "comparison",

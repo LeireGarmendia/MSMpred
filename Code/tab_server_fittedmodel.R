@@ -173,83 +173,10 @@ output$model_tests <- DT::renderDataTable({
 }, options = list(dom = 't'))
 
 
-#-----------------------------------------
-#Create the table of the logarithmic score
-#-----------------------------------------
-observeEvent(input$LS, {
-  if(input$select_model == "Cox"){
-    if(length(Rvalues$form1)>0){
-      set.seed(123)
-      p_train <- 0.7
-      n <- nrow(Rvalues$data)
-      
-      train_sel <- sample(c(FALSE,TRUE),n,rep=TRUE,prob = c(1-p_train,p_train))
-      datos_70 <- Rvalues$data[train_sel,]      # train
-      datos_30 <- Rvalues$data[!train_sel,]     # test
-      datos_30 <- datos_30[complete.cases(datos_30[,Rvalues$all_covar]),]
-      
-      datoslong_70 <- prepare_data(data=datos_70,tmat=Rvalues$tmat,time=Rvalues$all_time,
-                                   status=Rvalues$all_status,covar=Rvalues$all_covar,var_inistat="inistat")
-      datoslong_30 <- prepare_data(data=datos_30,tmat=Rvalues$tmat,time=Rvalues$all_time,
-                                   status=Rvalues$all_status,covar=Rvalues$all_covar,var_inistat="inistat")
 
-      LS <- 0 # Logarithmic Score
-      k  <- 0
-      
-      ##-- Launch progress bar 
-      shinyWidgets::updateProgressBar(session = session, id = "pb", value = 0, total = dim(datos_30)[1]) # reinitialize to 0 if you run the calculation several times
-      session$sendCustomMessage(type = 'launch-modal', "my-modal") 
-      for(i in 1:dim(datos_30)[1]){
-        updateProgressBar(session = session, id = "pb", value = i, total = dim(datos_30)[1])  # Update progress bar 
-        
-        pat_1 <- datos_30[rep(i, max(Rvalues$tmat, na.rm = TRUE)), Rvalues$all_covar]
-        pat_1$trans <- 1:max(Rvalues$tmat, na.rm = TRUE)
-        attr(pat_1, "trans") <- Rvalues$tmat
-        class(pat_1) <- c("msdata", "data.frame")
-        pat_1 <- expand.covs(pat_1, Rvalues$all_covar, longnames = FALSE)
-        pat_1$strata <- pat_1$trans
-        
-        msf_1 <- msfit(Rvalues$mod, pat_1, trans = Rvalues$tmat)
-        
-        pt_1 <- probtrans(msf_1, predt = 0, variance = FALSE)
-        
-        if(Rvalues$follow_up_time %in%  pt_1[[which(Rvalues$states==datos_30[i,"inistat"])]]$time){
-          LS_time <- Rvalues$follow_up_time
-        }else{
-          ind <- which(pt_1[[which(Rvalues$states==datos_30[i,"inistat"])]]$time<Rvalues$follow_up_time)
-          LS_time <- pt_1[[which(Rvalues$states==datos_30[i,"inistat"])]]$time[max(ind)]
-        }
-        
-        pred_prob_1 <- subset(pt_1[[which(Rvalues$states==datos_30[i,"inistat"])]][,1:(length(Rvalues$states)+1)], time == LS_time)
-        
-        ind <- which(datoslong_30$id==i & datoslong_30$Tstop < LS_time)
-        ifelse(length(ind)==0, real_state <- which(Rvalues$states==datos_30[i,"inistat"]),{
-          row <- which(datoslong_30$id==i & datoslong_30$Tstop == max(datoslong_30[ind,]$Tstop) & datoslong_30$status==1)
-          real_state <- datoslong_30$to[row]})
-        
-        
-        if(!(pred_prob_1[,1+real_state]>1 | pred_prob_1[,1+real_state]<0)){
-          k  <- k+1
-          LS <- LS+log(pred_prob_1[,1+real_state])
-        }
-      }
-      ##-- Close the progress bar ----------------------------------
-      session$sendCustomMessage(type = 'remove-modal', "my-modal") 
-      LS_total <- -LS/k
-      
-      output$logar_score <- DT::renderDataTable({
-        tab <- rbind("Logarithmic score"=LS_total)
-        colnames(tab) <- c("Fitted model")
-        return(round(tab,3))
-      }, options = list(dom = 't'))
-    }else{
-      return(NULL)
-    }
-  }
-})
-
-
-
+#----------------
+#Model comparison
+#----------------
 
 react_table2 <- reactive({
   reactable(Rvalues$comp,
@@ -322,9 +249,6 @@ react_table2 <- reactive({
   )})
 
 
-#----------------
-#Model comparison
-#----------------
 
 output$model_comp <- renderReactable(react_table2())
 
