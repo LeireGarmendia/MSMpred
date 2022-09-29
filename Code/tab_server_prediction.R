@@ -6,14 +6,14 @@ output$initial_state_1 <- renderUI({
   radioGroupButtons("initial_state_1", "Choose the initial state of the new patient:", 
                     choiceNames = Rvalues$initial_or_transient_states, 
                     choiceValues = 1:length(Rvalues$initial_or_transient_states), selected =  c(1),
-                    status = "warning", justified=TRUE)
+                    status = "primary", justified=TRUE)
 })
 
 output$initial_state_2 <- renderUI({
   radioGroupButtons("initial_state_2", "Choose the initial state of the new patient:", 
                     choiceNames = Rvalues$initial_or_transient_states, 
                     choiceValues = 1:length(Rvalues$initial_or_transient_states), selected =  c(1),
-                    status = "warning", justified=TRUE)
+                    status = "primary", justified=TRUE)
 })
 
 output$pred_1 <- renderUI({
@@ -31,7 +31,7 @@ output$pred_1 <- renderUI({
         pred_out <- list(pred_out, radioGroupButtons(inputId = paste0("pred_1_",Rvalues$sel_cov_nodup[i]), 
                                                      label = Rvalues$sel_cov_nodup[i], 
                                                      choices = levels(Rvalues$data[,Rvalues$sel_cov_nodup[i]]),
-                                                     status = "warning", justified=TRUE))  
+                                                     status = "primary", justified=TRUE))  
       }
     }
     pred_out
@@ -53,7 +53,7 @@ output$pred_2 <- renderUI({
         pred_out <- list(pred_out, radioGroupButtons(inputId = paste0("pred_2_",Rvalues$sel_cov_nodup[i]), 
                                                      label = Rvalues$sel_cov_nodup[i], 
                                                      choices = levels(Rvalues$data[,Rvalues$sel_cov_nodup[i]]),
-                                                     status = "warning", justified=TRUE))
+                                                     status = "primary", justified=TRUE))
       }
     }
     pred_out
