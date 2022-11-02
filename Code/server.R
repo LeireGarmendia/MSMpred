@@ -26,8 +26,30 @@ if(file.exists('DIVINE_app.csv')){
                             header = TRUE, stringsAsFactors = TRUE)
 }
 
+
+divine_data <- divine_data[,c("id", "wave", "sex", "age", "card_vasc", "immune",
+                              "vacany", "charlson", "safi", "curb65", "psi", 
+                              "crprot", "lympho", "inistat", "nopneum_time", 
+                              "pneum_time", "reco_time", "nimv_time", "imv_time", 
+                              "dcharg_time", "death_time", "nopneum_status",
+                              "pneum_status", "reco_status", "nimv_status", 
+                              "imv_status", "dcharg_status", "death_status")]
+
 divine_data$safi <- round(divine_data$safi,3)
 divine_data$lympho <- round(divine_data$lympho,5)
+for(i in 1:length(divine_data$wave)){
+ if(divine_data$wave[i]==1) divine_data$wave[i] <- "one"
+ if(divine_data$wave[i]==2) divine_data$wave[i] <- "two"
+ if(divine_data$wave[i]==3) divine_data$wave[i] <- "three"
+ if(divine_data$wave[i]==5) divine_data$wave[i] <- "five"
+}
+divine_data$wave <- as.factor(divine_data$wave)
+
+levels(divine_data$vacany) <- c("No", "Yes", "Not available")
+for(i in 1:length(divine_data$vacany)){
+ if(is.na(divine_data$vacany[i])) divine_data$vacany[i] <- "Not available"
+ }
+divine_data$vacany <- as.factor(divine_data$vacany)
 
 
 shinyServer(function(input, output, session) {
@@ -35,16 +57,21 @@ shinyServer(function(input, output, session) {
                             
                             all_covar = c(wave = "wave", sex = "sex", age = "age",
                                           card_vasc = "card_vasc", immune = "immune",
-                                          vacany = "vacany", vactype = "vactype",
-                                          vacdose = "vacdose",  charlson = "charlson",
+                                          vacany = "vacany",  charlson = "charlson",
+                                          # vactype = "vactype", vacdose = "vacdose", 
                                           safi = "safi", curb65 = "curb65", psi = "psi",
                                           crprot = "crprot", lympho = "lympho"),
-                            labels_covar = c("wave", "sex", "age", "card_vasc", "immune",
-                                             "vacany", "vactype", "vacdose",  "charlson", 
-                                             "safi", "curb65", "psi", "crprot", "lympho"),
-                            covar_type = c("factor", "factor", "numeric", "factor", 
-                                           "factor", "factor", "factor", "factor", 
-                                           "numeric", "numeric", "numeric", "numeric", 
+                            labels_covar = c("wave", "sex", "age",
+                                             "card_vasc", "immune",
+                                             "vacany", "charlson", 
+                                             # "vactype", "vacdose",  
+                                             "safi", "curb65", "psi", 
+                                             "crprot", "lympho"),
+                            covar_type = c("factor", "factor", "numeric", 
+                                           "factor", "factor",
+                                           "factor", "numeric", 
+                                           # "factor", "factor", 
+                                           "numeric", "numeric", "numeric", 
                                            "numeric", "numeric"),
                             
                             form1 = c(),
@@ -105,7 +132,6 @@ shinyServer(function(input, output, session) {
                             trans_names = list(),
                             info_coef = list()
   )
-  
   
   #Data
   source('tab_server_data.R',local = TRUE)

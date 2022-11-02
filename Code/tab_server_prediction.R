@@ -17,7 +17,6 @@ output$initial_state_2 <- renderUI({
 })
 
 output$pred_1 <- renderUI({
-  print(Rvalues$sel_cov_nodup)
   if(length(Rvalues$sel_cov_nodup)>0){
     pred_out <- list()
     for(i in 1:length(Rvalues$sel_cov_nodup)){
@@ -27,7 +26,9 @@ output$pred_1 <- renderUI({
                                                 quantile(Rvalues$data[,Rvalues$sel_cov_nodup[i]], 0.5, na.rm = T, type = 3),
                                                 min = min(Rvalues$data[,Rvalues$sel_cov_nodup[i]], na.rm = T), 
                                                 max = max(Rvalues$data[,Rvalues$sel_cov_nodup[i]], na.rm = T), width = "100%"))
-      } else if(Rvalues$covar_type[which(Rvalues$all_covar==Rvalues$sel_cov_nodup[i])]=="factor"){
+      
+        } else if(Rvalues$covar_type[which(Rvalues$all_covar==Rvalues$sel_cov_nodup[i])]=="factor"){
+          
         pred_out <- list(pred_out, radioGroupButtons(inputId = paste0("pred_1_",Rvalues$sel_cov_nodup[i]), 
                                                      label = Rvalues$sel_cov_nodup[i], 
                                                      choices = levels(Rvalues$data[,Rvalues$sel_cov_nodup[i]]),

@@ -290,8 +290,6 @@ output$myTable = renderDataTable({
             Rvalues$form1 <- c(Rvalues$form1, cov_trans)
             Rvalues$sel_cov <- c(Rvalues$sel_cov, Rvalues$all_covar[input$myTable_cells_selected[2]])}
         }}
-      print(Rvalues$form1)
-      print(Rvalues$sel_cov)
       
     })
     
@@ -330,7 +328,16 @@ observeEvent(input$save_model, {
       
       for(j in 1:length(Rvalues$form1)){
         if(str_detect(Rvalues$form1[j], paste0("\\.",i, "$"))){
-          cov <- c(cov, substr(Rvalues$form1[j],1,gregexpr(pattern ='.',Rvalues$form1[j],fixed = TRUE)[[1]][1]-1))
+          
+          #Nos quedamos con lo que esta delante del punto
+          new_cov <- substr(Rvalues$form1[j],1,gregexpr(pattern ='.',Rvalues$form1[j],fixed = TRUE)[[1]][1]-1)
+          #Tenemos que hacer el str_detect ya que si no con las variables categoricas no dicotomicas tenemos probelmas
+          #Se quedaria con wave1, wave2... no con wave y luego no funciona
+          for(k in 1:length(Rvalues$all_covar)){if(str_detect(new_cov, Rvalues$all_covar[k])) new_cov <- Rvalues$all_covar[k]}
+          cov <- c(cov, new_cov)
+        
+          # cov <- c(cov, substr(Rvalues$form1[j],1,gregexpr(pattern ='.',Rvalues$form1[j],fixed = TRUE)[[1]][1]-1))
+
         }
       }
       Rvalues$list_covar_trans[[i]] <- cov

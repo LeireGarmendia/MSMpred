@@ -17,13 +17,13 @@ output$trans <- renderUI({
 #----------------------------------------------
 output$num_unit <- renderUI({
   
-    unit <- list()
-    for(i in 1:length(Rvalues$all_covar)){
-      if(Rvalues$covar_type[i]=="numeric"){
-        unit <- list(unit, numericInput(paste0("unit_",Rvalues$all_covar[i]), Rvalues$all_covar[i], 
-                                        value = 1, min = 1, max = 100))  
-      }}
-    unit
+  unit <- list()
+  for(i in 1:length(Rvalues$all_covar)){
+    if(Rvalues$covar_type[i]=="numeric"){
+      unit <- list(unit, numericInput(paste0("unit_",Rvalues$all_covar[i]), Rvalues$all_covar[i], 
+                                      value = 1, min = 1, max = 100))  
+    }}
+  unit
 })
 
 
@@ -84,13 +84,13 @@ output$forest_plot <- renderPlotly({
       
       #Hacemos el forest plot
       ggplotly(ggplot(data_forest2, aes(y = rownames(data_forest2), x = HR)) +
-        geom_point(shape = 18, size = 5) +  
-        geom_errorbarh(aes(xmin = lower, xmax = upper), height = 0.25) +
-        geom_vline(xintercept = 1, color = "red", linetype = "dashed", cex = 1, alpha = 0.5) +
-        labs(x = "Hazard Ratio (95% CI)", y = "") + 
-        scale_x_log10() +
-        ggtitle(Rvalues$names_tmat[as.numeric(input$trans)]) +
-        common_theme)
+                 geom_point(shape = 18, size = 5) +  
+                 geom_errorbarh(aes(xmin = lower, xmax = upper), height = 0.25) +
+                 geom_vline(xintercept = 1, color = "red", linetype = "dashed", cex = 1, alpha = 0.5) +
+                 labs(x = "Hazard Ratio (95% CI)", y = "") + 
+                 scale_x_log10() +
+                 ggtitle(Rvalues$names_tmat[as.numeric(input$trans)]) +
+                 common_theme)
     }else{
       shinyalert("Oops!", HTML("Warning: there are no selected covariates for this transition"), type = "warning",html=TRUE)
       plotly_empty()

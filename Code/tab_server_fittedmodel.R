@@ -15,7 +15,7 @@ observeEvent({input$save_model
                                    paste(Rvalues$form1, collapse = "+"),'+','strata(trans)'))
         
         coxph(form2, data=Rvalues$datoslong)
-      
+        
       }else{
         #Without covariates
         
@@ -56,21 +56,30 @@ observeEvent({input$save_model
                                             replacement = paste0(" (", Rvalues$names_tmat[k], ")"))}
           
           for(j in 1:length(Rvalues$all_covar)){
-            #Para cada covariable miramos si es un factor no dicotómico
-            if(Rvalues$covar_type[j]=="factor" && 
-               length(levels(Rvalues$data[,Rvalues$all_covar[j]]))>2){
-              #Para los que no lo son buscamos sus filas
+            #Para cada covariable miramos si es categorica
+            if(Rvalues$covar_type[j]=="factor"){
+              #Buscamos sus filas
               if(str_detect(rownames(tab)[i], Rvalues$all_covar[j])){
-                
-                #Dentro de sus filas buscamos las que corresponden a cada comparación y 
-                #sustituimos el número por la categoría que se está comparando 
-                for(k in 1:(length(levels(Rvalues$data[,Rvalues$all_covar[j]]))-1)){
-                  if(str_detect(rownames(tab)[i], as.character(k))){
-                    rownames(tab)[i] <- str_replace(rownames(tab)[i], as.character(k), paste0(" ", levels(Rvalues$data[,Rvalues$all_covar[j]])[k+1]))
+                if(length(levels(Rvalues$data[,Rvalues$all_covar[j]]))>2){
+                  #Dentro de sus filas buscamos las que corresponden a cada comparación y
+                  #sustituimos el número por la categoría que se está comparando
+                  
+                  for(l in 1:(length(levels(Rvalues$data[,Rvalues$all_covar[j]]))-1)){
+                    if(str_detect(rownames(tab)[i], as.character(l))){
+                      rownames(tab)[i] <- str_replace(rownames(tab)[i], as.character(l), 
+                                                      paste0(" (", levels(Rvalues$data[,Rvalues$all_covar[j]])[l+1], 
+                                                             " respect to ", levels(Rvalues$data[,Rvalues$all_covar[j]])[1], ")"))
+                    }
                   }
+                }else{
+                  rownames(tab)[i] <- str_replace(rownames(tab)[i], Rvalues$all_covar[j],
+                                                  paste0(Rvalues$all_covar[j], " (", levels(Rvalues$data[,Rvalues$all_covar[j]])[2],
+                                                         " respect to ", levels(Rvalues$data[,Rvalues$all_covar[j]])[1], ")"))
+                  
                 }
               }
             }
+            
           }
         }
         

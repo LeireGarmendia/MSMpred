@@ -105,8 +105,7 @@ shinyUI(dashboardPage(title= "MSMpred",
                                   HTML(text_format_states))),
                        column(4, 
                               box(title = "Covariates", status = "warning", width = NULL,
-                                  HTML(text_format_covariates)))),
-              ),
+                                  HTML(text_format_covariates))))),
       
       
       tabItem(tabName = "data",
