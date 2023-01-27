@@ -368,8 +368,8 @@ output$num_events <- DT::renderDataTable({
   if(ncol(Rvalues$datoslong)==0){
     NULL
   }else{
-    matrix(events(Rvalues$datoslong)$Frequencies[,1:Rvalues$num_states],
-           ncol=Rvalues$num_states, dimnames = list(Rvalues$states, Rvalues$states))}
+  matrix(events(Rvalues$datoslong)$Frequencies, ncol=Rvalues$num_states+2, 
+         dimnames = list(Rvalues$states, c(Rvalues$states, "censored", "total entering")))}
 }, options = list(dom = 't',  ordering = FALSE))
 
 

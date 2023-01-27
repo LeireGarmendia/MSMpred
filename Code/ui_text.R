@@ -31,8 +31,8 @@ text_DIVINE <- "The DynamIc eValuation of COVID-19 cliNical statEs and
                                       biostatisticians from Universitat Politècnica de 
                                       Catalunya (UPC).
                                       </li><li><b>Data</b>: more than 4,000 hospitalized adult 
-                                      COVID-19 patients from 8 Catalan hospitals during the 
-                                      first three waves of the pandemic.
+                                      COVID-19 patients from 8 Catalan hospitals during four waves
+                                      of the pandemic.
                                       </li><li><b>Objectives</b>:
                                       <ol><li>Identify the most clinically relevant prognostic 
                                       factors for the events.
@@ -49,7 +49,7 @@ text_states <- '<ol><li><b>No severe pneumonia (nopneum)</b>:
                                            </li><li><b>Severe pneumonia (pneum)</b>: 
                                            patients that are hospitalized due to COVID-19 and have 
                                            severe pneumonia.
-                                           </li><li><b>Severe pneumonia recovery (reco)</b>: 
+                                           </li><li><b>Recovery (reco)</b>: 
                                            patients that had severe pneumonia while hospitalized due 
                                            to COVID-19, and follow at the hospital but they have 
                                            recovered.
