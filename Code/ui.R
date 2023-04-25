@@ -389,7 +389,7 @@ shinyUI(dashboardPage(title = "MSMpred",
                        column(6,
                               box(title = "Table of logarithmic score:", status = "warning", width = NULL,
                                   DT::dataTableOutput("logar_score")),
-                              box(title = "Confussion matrix:", status = "warning", width = NULL,
+                              box(title = "Confusion matrix:", status = "warning", width = NULL,
                                   DT::dataTableOutput("cont_tab"),
                                   plotlyOutput("conf_barplot", height = "700px"))))),
       

@@ -19,8 +19,9 @@ text_sectionsMSMpred <- '<ul><li><b>Data</b>: upload new data.
                              </li><li><b>Predictions</b>: make predictions about new individuals.
                              </li></ul>'
 
-text_security <- 'For security purposes in some institutions this app does not work. 
-                              If you have problems using it do not heasitate to contact us.'
+text_security <- 'For security purposes in some institutions this app does not work. You can use the following link: 
+                  <a href = "https://msmpred.shinyapps.io/MSMpred/">https://msmpred.shinyapps.io/MSMpred/</a><br><br>
+                  If you have problems using it do not heasitate to contact us.'
 
 text_DIVINE <- "The DynamIc eValuation of COVID-19 cliNical statEs and 
                                       their prognostic factors to improve the intra-hospital 
@@ -98,7 +99,8 @@ text_format_states <- "<ul><li>Time and status variables related to the differen
                                       the initial state of each individual is specified.</li></ul>"
 
 text_format_covariates <- "<ul><li>The variables that are not named as <b>x_time</b>, <b>x_status</b>,
-                                      <b>id</b> or <b>inistat</b> will be considered as covariates.</li></ul>"
+                           <b>id</b> or <b>inistat</b> will be considered as covariates. 
+                           </li><li>The names of the variables can not contain any number or dot.</li></ul>"
 
 text_DIVINE_cohort <- "When the DIVINE cohort is used for confidentiality reasons only the information of 20 patients is shown,
                            although internally all the individuals are used."

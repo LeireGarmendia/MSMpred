@@ -41,12 +41,18 @@ output$forest_plot <- renderPlotly({
       eliminar <- c()
       trans_int <- paste0("[.]", input$trans, "$")
       
+      print(rownames(data_forest))
+      
       for(i in 1:dim(data_forest)[1]){
         if(!str_detect(rownames(data_forest)[i], trans_int)){
           eliminar <- c(eliminar, i)
         }}
       
       data_forest2=data_forest[-eliminar,]
+      
+      print(rownames(data_forest2))
+      
+      print(Rvalues$list_covar_trans)
       
       #Modifico los HR y el CI de las covariables numéricas en función de las unidades seleccionadas
       for(i in 1:dim(data_forest2)[1]){
@@ -60,6 +66,7 @@ output$forest_plot <- renderPlotly({
               data_forest2$HR[i]    <- data_forest2$HR[i]^input[[unidades]]
               data_forest2$lower[i] <- data_forest2$lower[i]^input[[unidades]]
               data_forest2$upper[i] <- data_forest2$upper[i]^input[[unidades]]
+              print(Rvalues$list_covar_trans[[as.numeric(input$trans)]][j])
               rownames(data_forest2)[i] <- paste0(Rvalues$list_covar_trans[[as.numeric(input$trans)]][j], "\n (for ", input[[unidades]], " unit increase)")
               
             }else{

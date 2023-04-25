@@ -322,6 +322,12 @@ output$myTable = renderDataTable({
 #-----------------------------------------------------
 observeEvent(input$save_model, {
   if(length(Rvalues$form1)>0){
+    
+    print("Rvalues$form1")
+    print(Rvalues$form1)
+    print("Rvalues$all_covar")
+    print(Rvalues$all_covar)
+    
     Rvalues$list_covar_trans <-  vector(mode = "list", length = max(Rvalues$tmat, na.rm=T))
     for(i in 1:max(Rvalues$tmat, na.rm=T)){
       cov <- c()
@@ -331,10 +337,26 @@ observeEvent(input$save_model, {
           
           #Nos quedamos con lo que esta delante del punto
           new_cov <- substr(Rvalues$form1[j],1,gregexpr(pattern ='.',Rvalues$form1[j],fixed = TRUE)[[1]][1]-1)
-          #Tenemos que hacer el str_detect ya que si no con las variables categoricas no dicotomicas tenemos probelmas
+          #Tenemos que hacer el str_detect ya que si no con las variables categoricas no dicotomicas tenemos problemas
           #Se quedaria con wave1, wave2... no con wave y luego no funciona
-          for(k in 1:length(Rvalues$all_covar)){if(str_detect(new_cov, Rvalues$all_covar[k])) new_cov <- Rvalues$all_covar[k]}
+          for(k in 1:length(Rvalues$all_covar)){
+            cov_k <- paste0("^",Rvalues$all_covar[k],"$") #para que busque exactamente el nombre de esa covariable 
+                                                          #(si cov1=age y cov2=agedos teniamos problemas)
+            if(str_detect(new_cov, cov_k)) new_cov <- Rvalues$all_covar[k]
+            cov_k <- paste0("^",Rvalues$all_covar[k],"1$") #para evitar problemas con las covariables no dicotomicas 
+            if(str_detect(new_cov, cov_k)) new_cov <- Rvalues$all_covar[k]
+            cov_k <- paste0("^",Rvalues$all_covar[k],"2$") #para evitar problemas con las covariables no dicotomicas 
+            if(str_detect(new_cov, cov_k)) new_cov <- Rvalues$all_covar[k]
+            cov_k <- paste0("^",Rvalues$all_covar[k],"3$") #para evitar problemas con las covariables no dicotomicas 
+            if(str_detect(new_cov, cov_k)) new_cov <- Rvalues$all_covar[k]
+            cov_k <- paste0("^",Rvalues$all_covar[k],"4$") #para evitar problemas con las covariables no dicotomicas 
+            if(str_detect(new_cov, cov_k)) new_cov <- Rvalues$all_covar[k]
+            
+            }
           cov <- c(cov, new_cov)
+          
+          print("new_cov")
+          print(new_cov)
         
           # cov <- c(cov, substr(Rvalues$form1[j],1,gregexpr(pattern ='.',Rvalues$form1[j],fixed = TRUE)[[1]][1]-1))
 
